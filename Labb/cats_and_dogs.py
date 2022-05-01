@@ -9,18 +9,18 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from tensorflow.keras import Sequential, layers
-from tensorflow.keras.layers import Flatten, Dense, InputLayer, Activation, Dropout
-from tensorflow.keras.optimizers import SGD, Adam
-from keras.wrappers.scikit_learn import KerasRegressor
+#from tensorflow.keras import Sequential, layers
+#from tensorflow.keras.layers import Flatten, Dense, InputLayer, Activation, Dropout
+#from tensorflow.keras.optimizers import SGD, Adam
+#from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
-import keras_tuner as kt
-from tensorflow import keras
+#import keras_tuner as kt
+#from tensorflow import keras
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from keras.constraints import maxnorm
-from keras.callbacks import EarlyStopping
+#from keras.constraints import maxnorm
+#from keras.callbacks import EarlyStopping
 
 os.chdir(os.path.dirname(__file__))
 
