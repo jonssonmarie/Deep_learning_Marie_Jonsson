@@ -2,23 +2,22 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 import os, random, shutil, glob
-import cv2
+
 import matplotlib.pyplot as plt
 from sklearn.impute import KNNImputer
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-#from tensorflow.keras import Sequential, layers
-#from tensorflow.keras.layers import Flatten, Dense, InputLayer, Activation, Dropout
-#from tensorflow.keras.optimizers import SGD, Adam
-#from keras.wrappers.scikit_learn import KerasRegressor
+from tensorflow.keras import Sequential, layers
+from tensorflow.keras.layers import Flatten, Dense, InputLayer, Activation, Dropout
+from tensorflow.keras.optimizers import SGD, Adam
+from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
-#import keras_tuner as kt
-#from tensorflow import keras
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+from tensorflow import keras
+"""from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score"""
 #from keras.constraints import maxnorm
 #from keras.callbacks import EarlyStopping
 
@@ -138,9 +137,16 @@ skapa lämplig plot för att kontrollera att dataseten är balanserade
 skapa lämplig plot för att kontrollera att dataseten är slumpade (dvs inte ex [0, 0, ... 0, 1, 1, ..., 1]).
 """
 
-val_df = pd.DataFrame(os.listdir(val_path))
+def list_to_dataframe(list_path):
 
-print(val_df.head(-10))
+    image_df = pd.DataFrame(os.listdir(list_path))
+
+    print(image_df.head(-10))
+    return image_df
+
+val_df = list_to_dataframe(val_path)
+train_df = list_to_dataframe(train_path)
+test_df = list_to_dataframe(test_path)
 
 
 def one_hot_encoder(df_to_convert, pre_fix):
@@ -156,6 +162,7 @@ def one_hot_encoder(df_to_convert, pre_fix):
     return encoded
 
 
-encode = one_hot_encoder(val_df, [0])
+val_encode = one_hot_encoder(val_df, [0])
+display_images(val_encode, val_path)
 
-print(encode.head(100))
+
