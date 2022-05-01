@@ -138,23 +138,24 @@ skapa lämplig plot för att kontrollera att dataseten är balanserade
 skapa lämplig plot för att kontrollera att dataseten är slumpade (dvs inte ex [0, 0, ... 0, 1, 1, ..., 1]).
 """
 
-labels = ["cat", "dog"]
+val_df = pd.DataFrame(os.listdir(val_path))
+
+print(val_df.head(-10))
 
 
-def one_hot_encoder(df_to_convert, sub_lst):
+def one_hot_encoder(df_to_convert, pre_fix):
     """
     :param df_to_convert: DataFrame
     :param sub_lst: list
     :return: DataFrame
     """
+    encoded = pd.get_dummies(df_to_convert, prefix=pre_fix, drop_first=False)
 
     # https://scikit-learn.org/stable/modules/preprocessing.html#preprocessing-categorical-features
-    X = df_to_convert[sub_lst]  # drop='first' but if more choices than 2 'first' needed to be removed
-    drop_enc = OneHotEncoder(handle_unknown='ignore').fit(X)
-    encoded = drop_enc.transform(X).toarray()
-    print(drop_enc.transform(X).toarray())
-    print(drop_enc.get_feature_names_out())
+
     return encoded
 
 
-encode = one_hot_encoder(val_path, ["cat.*.jpg", "dog.*.jpg"])
+encode = one_hot_encoder(val_df, [0])
+
+print(encode.head(100))
