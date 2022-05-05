@@ -33,9 +33,10 @@ def plot_samples(data):
     for i, ax in enumerate(axes.flatten()):
         ax.imshow(data[i], cmap="gray")
         ax.axis("off")
+    plt.show()
 
 
-plot_samples(X_train)
+#plot_samples(X_train)
 
 # Scale data
 X_train = X_train.astype("float32") / 255
@@ -59,8 +60,7 @@ train_image_generator = ImageDataGenerator(rotation_range=10, shear_range=.2, zo
 # don't augment validation and test data
 test_image_generator = ImageDataGenerator()
 
-train_val_generator = train_image_generator.flow(
-    X_train_val, y_train_val, batch_size=32)
+train_val_generator = train_image_generator.flow(X_train_val, y_train_val, batch_size=32)
 
 val_generator = test_image_generator.flow(X_val, y_val, batch_size=32)
 

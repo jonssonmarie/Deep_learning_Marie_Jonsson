@@ -31,6 +31,7 @@ for i, ax in enumerate(axes.flatten()):
 fig.tight_layout()
 
 print(f"{X_train.min()=}, {X_train.max()=}")
+
 # Skalar datan
 scaled_X_train = X_train.astype("float32") / 255
 scaled_X_test = X_test.astype("float32") / 255
@@ -50,7 +51,7 @@ def CNN_model(learning_rate=0.001, drop_rate=0.5, kernels=[32, 64]):
             kernel_size=(3, 3),
             activation="relu",
             kernel_initializer="he_normal",
-            input_shape=X_train.shape[1:])  # (ger 32,32,32 tar bort 50000 ion 1:)
+            input_shape=X_train.shape[1:])  # (ger 32,32,32 tar bort 50000 iom 1:)
 
         model.add(conv_layer)
         # defaults to pool_size if None
