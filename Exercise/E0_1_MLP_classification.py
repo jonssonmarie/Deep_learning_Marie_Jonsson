@@ -127,4 +127,4 @@ def model(x_training, y_training):
     :return: model
     """
 
-#model(X_test, y_test)
+model(X_test, y_test)

@@ -28,7 +28,8 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from tensorflow.keras import Sequential, layers
 from tensorflow.keras.layers import Flatten, Dense, InputLayer, Activation, Dropout
 from tensorflow.keras.optimizers import SGD, Adam
-from scikeras.wrappers import KerasRegressor
+# from scikeras.wrappers import KerasRegressor for windows
+from keras.wrappers.scikit_learn import KerasRegressor  # for mac
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 import keras_tuner as kt
@@ -39,14 +40,14 @@ from keras.constraints import maxnorm
 from keras.callbacks import EarlyStopping
 
 
-from Assets import initial_analyse, unique_df, statistics_mse_mae_rmse
+from Deep_learning_Marie_Jonsson.assets import initial_analyse, statistics_mse_mae_rmse # unique_df,  glömt föra över unique
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 data = sns.load_dataset("mpg").drop("name", axis=1)
 
 # initial analyse
-initial_analyse.initial_analyse(data)
-unique_df.unique_names(data, ["origin", "model_year", "cylinders"])
+#initial_analyse.initial_analyse(data)
+#unique_df.unique_names(data, ["origin", "model_year", "cylinders"])
 
 # drop origin and model_year since they do not contribute to correct horsepower
 # horsepower is ok with the type of data that is available.
@@ -155,63 +156,6 @@ def evaluate_model(model, test_x, test_y, title):
 
 
 # Artificial Neural Network (ANN) - aka shallow MLP
-"""def MLP_model(nodes=None, names=None):
-
-    model = Sequential(name="MLP_model")
-    model.add(InputLayer(X_train.shape[1]))
-
-    for node, name in zip(nodes, names):
-        model.add(Dense(node, name=name))
-
-    model.compile(loss="mean_squared_error", optimizer=SGD(learning_rate=0.001))
-
-    return model"""
-
-
-"""model_1 = MLP_model(nodes=[20, 1], names=["Hidden1", "Output_layer"])
-model_1.summary()
-
-# modellen tränas här via .fit med extra godis!
-model_1.fit(scaled_X_train, y_train, epochs=200, verbose=0, validation_data=(scaled_X_val, y_val))
-plot_history(model_1)
-
-# return_weights_bias(model_1)
-
-# Prediction and evaluation
-evaluate_model(model_1, scaled_X_val, y_val, "model_1")
-
-# Early stopping
-model_1.fit(scaled_X_train, y_train, epochs=20, verbose=0, validation_data=(scaled_X_val, y_val))
-plot_history(model_1)
-
-
-model_2 = MLP_model(nodes=[20, 20, 1], names=["Hidden1", "Hidden2", "Output_layer"])
-model_2.summary()
-
-model_2.fit(scaled_X_train, y_train, epochs=200, verbose=0, validation_data=(scaled_X_val, y_val))
-plot_history(model_2)
-
-# return_weights_bias(model_2)
-evaluate_model(model_2, scaled_X_val, y_val, "model_2")
-
-# Early stopping
-model_2.fit(scaled_X_train, y_train, epochs=20, verbose=0, validation_data=(scaled_X_val, y_val))
-plot_history(model_2)
-
-
-model_3 = MLP_model(nodes=[12, 10, 10, 1], names=["Hidden1", "Hidden2", "Hidden3", "Output_layer"])
-model_3.summary()
-
-model_3.fit(scaled_X_train, y_train, epochs=200, verbose=0, validation_data=(scaled_X_val, y_val))
-plot_history(model_3)
-
-# return_weights_bias(model_3)
-evaluate_model(model_3, scaled_X_val, y_val, "model_3")
-
-# Early stopping
-model_3.fit(scaled_X_train, y_train, epochs=20, verbose=0, validation_data=(scaled_X_val, y_val))
-plot_history(model_3)"""
-
 pipe_RFC = Pipeline([("scaler", None), ("random_forest", RandomForestRegressor())])
 
 
@@ -240,35 +184,31 @@ def cross_validation2(train_x, train_y):
     evaluate_model(regressor_RFC, scaled_X_test, y_test, "random_forest")
 
 
-# cross_validation2(X_train, y_train)
+cross_validation2(X_train, y_train)
 
 
-def model(x_training, y_training):
-    """
-   r2 (coefficient of determination) regression score function.
-    Best possible score is 1.0 and it can be negative (because the model can be arbitrarily worse).
-    A constant model that always predicts the expected value of y, disregarding the input features,
-    would get a  score of 0.0.
-    scaled_X_val, y_val
-    r2:
-    Best Score RFC: 0.8545 using {'random_forest__criterion': 'squared_error', 'random_forest__max_features': 'log2', 'random_forest__n_estimators': 23, 'scaler': StandardScaler()}
-    random_forest
-    MSE: 144.453, MAE: 10.332, RMSE: 12.019
+"""
+r2 (coefficient of determination) regression score function.
+Best possible score is 1.0 and it can be negative (because the model can be arbitrarily worse).
+A constant model that always predicts the expected value of y, disregarding the input features,
+would get a  score of 0.0.
+scaled_X_val, y_val
+r2:
+Best Score RFC: 0.8545 using {'random_forest__criterion': 'squared_error', 'random_forest__max_features': 'log2', 'random_forest__n_estimators': 23, 'scaler': StandardScaler()}
+random_forest
+MSE: 144.453, MAE: 10.332, RMSE: 12.019
 
-    "neg_mean_squared_error":
-    scaled_X_val, y_val
-    Best Score RFC: -8.8093 using {'random_forest__criterion': 'squared_error', 'random_forest__max_features': 'log2', 'random_forest__n_estimators': 34, 'scaler': MinMaxScaler()}
-    random_forest
-    MSE: 129.666, MAE: 9.734, RMSE: 11.387
+"neg_mean_squared_error":
+scaled_X_val, y_val
+Best Score RFC: -8.8093 using {'random_forest__criterion': 'squared_error', 'random_forest__max_features': 'log2', 'random_forest__n_estimators': 34, 'scaler': MinMaxScaler()}
+random_forest
+MSE: 129.666, MAE: 9.734, RMSE: 11.387
 
-    neg_mean_squared_error:
-    Best Score RFC: -9.2102 using {'random_forest__criterion': 'absolute_error', 'random_forest__max_features': 'log2', 'random_forest__n_estimators': 300, 'scaler': MinMaxScaler()}
-    random_forest
-    MSE: 91.786, MAE: 7.980, RMSE: 9.580
-    """
-
-
-# model(scaled_X_test, y_test)
+neg_mean_squared_error:
+Best Score RFC: -9.2102 using {'random_forest__criterion': 'absolute_error', 'random_forest__max_features': 'log2', 'random_forest__n_estimators': 300, 'scaler': MinMaxScaler()}
+random_forest
+MSE: 91.786, MAE: 7.980, RMSE: 9.580
+"""
 
 
 def create_model(nlayers=None, nnodes=None, activations=None, learn_rate=None):  # dropout_rate=0.0,
@@ -334,7 +274,7 @@ def cross_validation(train_x, train_y):
     evaluate_model(regressor_MLP, scaled_X_val, y_val, "regressor_MLP")
 
 
-#cross_validation(scaled_X_train, y_train)
+cross_validation(scaled_X_train, y_train)
 
 
 def plot_metrics(metrics):
@@ -356,7 +296,6 @@ def MLP_model():
     # fit model
     es = EarlyStopping(monitor='val_loss', mode='min', patience=20, verbose=1, min_delta=1)
     model_mlp.fit(scaled_X_train, y_train, epochs=40, verbose=1, validation_data=(scaled_X_test, y_test), callbacks=es)
-    #evaluate_model(model_mlp, scaled_X_test, y_test, "MLP_model")
     model_mlp.summary()
     MLP_history = pd.DataFrame(model_mlp.history.history)
     return MLP_history

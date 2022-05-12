@@ -82,11 +82,11 @@ def CNN_model(learning_rate=.001, drop_rate=.5, kernels=[32, 32]):
 
     # the convolutional layers
     for number_kernel in kernels:
-        conv_layer = Conv2D(number_kernel, kernel_size=(3, 3), activation="relu", kernel_initializer="he_normal",
-                            input_shape=X_train.shape[1:])
+                    conv_layer = Conv2D(number_kernel, kernel_size=(3, 3), activation="relu", kernel_initializer="he_normal",
+                                        input_shape=X_train.shape[1:])
 
-        model.add(conv_layer)
-        model.add(MaxPooling2D(pool_size=(2, 2), strides=2))
+                    model.add(conv_layer)
+                    model.add(MaxPooling2D(pool_size=(2, 2), strides=2))
 
     # MLP layers
     model.add(Flatten())

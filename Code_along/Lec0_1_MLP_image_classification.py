@@ -106,6 +106,6 @@ misclassified_indices = np.where(y_pred != y_test)[0]
 misclassified_samples = X_test[misclassified_indices]
 
 # a few misclassifications
-display_images(misclassified_samples, 4,5, (12,8))
+display_images(misclassified_samples, 4, 5, (12, 8))
 
 
