@@ -63,7 +63,7 @@ def save_data_to_folder(image_lst):
         val_lst.extend(data[800:1000])
         test_lst.extend(data[1000:1250])
 
-    def copy_to_folder(file_lst, folder):
+    def copy_to_folder(file_lst, folder):  # fick tips från Felix om glob.glob
         if len(os.listdir(folder)) != 0:
             files = glob.glob(folder+'/*.jpg')
             for f in files:
